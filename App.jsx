@@ -3,6 +3,11 @@ App = React.createClass({
     // This mixin makes the getMeteorData method work
     mixins: [ReactMeteorData],
 
+    getInitialState: function() {
+        console.log('aaaa');
+        return {files: [], message: ''};
+    },
+
     // Loads items from the Tasks collection and puts them on this.data.tasks
     getMeteorData() {
         return {
@@ -15,15 +20,19 @@ App = React.createClass({
             return <Task key={task._id} task={task} />;
         });
     },
-    renderUpload() {
-        return <upload_bootstrap contentType="images" fileTypes=".jpg" multiple="true" />
-    },
 
+    renderPreviews() {
+        console.log('renderpreview', this.state.files);
+        if (!this.state.files) return null;
+        return this.state.files.map((file)  => {
+            return <PreviewImage file={file} />;
+        });
+    },
 
     handleSubmit(event) {
 
         //FS.Utility.eachFile(event, function(file) {
-        var files = this.refs.fileInput.getDOMNode().files;
+        var files = this.state.files;//this.refs.fileInput.getDOMNode().files;
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
 
@@ -57,18 +66,23 @@ App = React.createClass({
 
         // Clear form
         React.findDOMNode(this.refs.textInput).value = "";
+
+        this.setState(this.getInitialState());
+        //this.setState({files: []});
     },
 
     handleFile(event) {
-        var preview = this.refs.imgInput.getDOMNode();
+        var self = this;
+        //var preview = this.refs.imgInput.getDOMNode();
         FS.Utility.eachFile(event, function(file) {
-
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                preview.src = reader.result;
-            }
-            reader.readAsDataURL(file);
+            self.state.files.push(file);
+            self.setState({files: self.state.files});
+            console.log('files',self.state.files);
         });
+    },
+
+    handleChange: function(e) {
+        this.setState({message: e.target.value});
     },
 
 
@@ -82,6 +96,8 @@ App = React.createClass({
                         <input
                             type="text"
                             ref="textInput"
+                            value={this.state.message}
+                            onChange={this.handleChange}
                             placeholder="Type to add new tasks"
                             />
                         <input
@@ -91,10 +107,9 @@ App = React.createClass({
                             onChange={this.handleFile}
                             ref="fileInput"
                             />
-                        <img src="" height="200" ref="imgInput" />
+                        {this.renderPreviews()}
                     </form>
                 </header>
-                {this.renderUpload()}
                 <ul>
                     {this.renderTasks()}
                 </ul>
