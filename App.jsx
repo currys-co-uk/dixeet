@@ -24,9 +24,18 @@ App = React.createClass({
     renderPreviews() {
         console.log('renderpreview', this.state.files);
         if (!this.state.files) return null;
-        return this.state.files.map((file)  => {
-            return <PreviewImage file={file} />;
+        return this.state.files.map((file, i)  => {
+            return <PreviewImage file={file} onDelete={this.removePreview} index={i} />;
         });
+    },
+
+    removePreview(what) {
+        console.log(what);
+        var idx = what;//this.state.files.indexOf(what);
+        s = this.state.files;
+        console.log(s);
+        s.splice(idx, 1);
+        this.setState({files: s});
     },
 
     handleSubmit(event) {
@@ -87,6 +96,7 @@ App = React.createClass({
 
 
     render() {
+        console.log(this.state.files,'render');
         return (
             <div className="container">
                 <header>
