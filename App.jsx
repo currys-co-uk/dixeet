@@ -4,7 +4,6 @@ App = React.createClass({
     mixins: [ReactMeteorData],
 
     getInitialState: function() {
-        console.log('aaaa');
         return {files: [], message: ''};
     },
 
@@ -22,46 +21,34 @@ App = React.createClass({
     },
 
     renderPreviews() {
-        console.log('renderpreview', this.state.files);
-        if (!this.state.files) return null;
         return this.state.files.map((file, i)  => {
             return <PreviewImage file={file} onDelete={this.removePreview} index={i} />;
         });
     },
 
-    removePreview(what) {
-        console.log(what);
-        var idx = what;//this.state.files.indexOf(what);
+    removePreview(index) {
         s = this.state.files;
-        console.log(s);
-        s.splice(idx, 1);
+        s.splice(index, 1);
         this.setState({files: s});
     },
 
     handleSubmit(event) {
-
-        //FS.Utility.eachFile(event, function(file) {
         var files = this.state.files;//this.refs.fileInput.getDOMNode().files;
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
 
-
             Images.insert(file, function (err, fileObj) {
                 if (err) {
-                    // handle error
+                    console.debug (err)
                 } else {
-                    // handle success depending what you need to do
-                    //var userId = Meteor.userId();
                     var imagesURL = {
                         "profile.image": "/cfs/files/images/" + fileObj._id
                     };
 
                     console.log(imagesURL);
-                    //Meteor.users.update(userId, {$set: imagesURL});
                 }
             });
         }
-        //});
 
         event.preventDefault();
 
@@ -77,16 +64,14 @@ App = React.createClass({
         React.findDOMNode(this.refs.textInput).value = "";
 
         this.setState(this.getInitialState());
-        //this.setState({files: []});
     },
 
     handleFile(event) {
         var self = this;
-        //var preview = this.refs.imgInput.getDOMNode();
         FS.Utility.eachFile(event, function(file) {
-            self.state.files.push(file);
-            self.setState({files: self.state.files});
-            console.log('files',self.state.files);
+            var files = self.state.files;
+            files.push(file);
+            self.setState({files: files});
         });
     },
 
@@ -96,12 +81,10 @@ App = React.createClass({
 
 
     render() {
-        console.log(this.state.files,'render');
         return (
             <div className="container">
                 <header>
                     <h1>Todo List</h1>
-
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <input
                             type="text"
@@ -117,9 +100,12 @@ App = React.createClass({
                             onChange={this.handleFile}
                             ref="fileInput"
                             />
-                        {this.renderPreviews()}
                     </form>
+
+                    {this.renderPreviews()}
                 </header>
+
+
                 <ul>
                     {this.renderTasks()}
                 </ul>
