@@ -14,7 +14,17 @@ Task = React.createClass({
     },
 
     deleteThisTask() {
+        if (typeof this.props.task.files != 'undefined') {
+            this.props.task.files.forEach(function(el){
+                Images.remove({_id: el.id});
+            });
+        }
         Tasks.remove(this.props.task._id);
+    },
+
+    imgUrl(id) {
+        img = Images.findOne({_id: id});
+        return img.url();
     },
 
     renderPreviews() {
@@ -22,7 +32,7 @@ Task = React.createClass({
         if (typeof this.props.task.files == 'undefined') return '';
 
         return this.props.task.files.map((file, i)  => {
-            return <img src={'/cfs/files/images/'+file.id+'/' + file.name}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} />;
+            return <img src={this.imgUrl(file.id)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} />;
         });
 
 
