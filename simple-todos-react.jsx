@@ -6,7 +6,7 @@ Tasks = new Mongo.Collection("tasks");
 };*/
 
 var imageStore = new FS.Store.FileSystem("images", {
-  path: "c:\\Users\\rozehp01\\simple-todos-react\\uploads\\", //optional, default is "/cfs/files" path within app container
+  path: "uploads", //optional, default is "/cfs/files" path within app container
   //transformWrite: myTransformWriteFunction, //optional
   //transformRead: myTransformReadFunction, //optional
   maxTries: 1 //optional, default 5
