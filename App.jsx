@@ -44,6 +44,7 @@ App = React.createClass({
     },
 
     handleSubmit(event) {
+        var self = this;
 
         event.preventDefault();
         // Find the text field via the React ref
@@ -68,11 +69,6 @@ App = React.createClass({
 
         var task_id = Tasks.insert(doc);
 
-
-        //console.log(task, 'task'); //ivLzd9xvzbXyKZT93 task
-
-
-
         var files = this.state.files;//this.refs.fileInput.getDOMNode().files;
 
         var filesStore = [];
@@ -81,6 +77,8 @@ App = React.createClass({
             var file = files[i];
 
             Images.insert(file, function (err, fileObj) {
+                console.log(fileObj);
+
                 if (err) {
                     console.debug (err)
                 } else {
@@ -96,15 +94,13 @@ App = React.createClass({
                     var task = Tasks.findOne({_id: task_id});
                     task['files'] = filesStore;
 
-                    intervalId[fileObj._id] = setInterval(function() {
-                        if (fileObj.isUploaded()) {
-                            setTimeout(function () {Tasks.update({_id: task_id}, task);}, 1000);
-                            clearInterval(intervalId[fileObj._id]);
-                            delete intervalId[fileObj._id];
+                    Images.find({_id: fileObj._id}).observe({
+                        changed: function(file, oldFile) {
+                            if (file.url() != null) {
+                                Tasks.update({_id: task_id}, task);
+                            }
                         }
-                    }, 200);
-
-
+                    });
                 }
             });
         }
@@ -112,7 +108,7 @@ App = React.createClass({
         // Clear form
         React.findDOMNode(this.refs.textInput).value = "";
 
-        this.setState(this.getInitialState());
+        this.setState({files: [], message: ''});
     },
 
     handleFile(event) {
