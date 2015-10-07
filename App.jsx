@@ -108,6 +108,7 @@ App = React.createClass({
                     var task = Tasks.findOne({_id: task_id});
                     task['files'] = filesStore;
 
+                    /*
                     Images.find({_id: fileObj._id}).observe({
                         changed: function(file, oldFile) {
                             if (file.url() != null) {
@@ -115,6 +116,14 @@ App = React.createClass({
                             }
                         }
                     });
+                    */
+                    intervalId[fileObj._id] = setInterval(function() {
+                        if (fileObj.isUploaded()) {
+                            setTimeout(function () {Tasks.update({_id: task_id}, task);}, 3000);
+                            clearInterval(intervalId[fileObj._id]);
+                            delete intervalId[fileObj._id];
+                        }
+                    }, 200);
                 }
             });
         }
