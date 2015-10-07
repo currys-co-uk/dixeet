@@ -51,8 +51,7 @@ Task = React.createClass({
         var arr = text.split(hash);
         var arr_jsx = [];
         for(var i=0; i<arr.length;i++) {
-
-            arr_jsx.push(<span>{this.getMessage(arr[i], hash_arr)}</span>);
+            arr_jsx.push(<span>{this.getMessage(arr[i], hash_arr.slice(0))}</span>);
             if (i < arr.length-1) {
                 arr_jsx.push(<span className="hashtag" onClick={this.selectHash.bind(this, hash)}>{hash}</span>);
             }
