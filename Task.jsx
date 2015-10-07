@@ -24,6 +24,11 @@ Task = React.createClass({
 
     imgUrl(id) {
         img = Images.findOne({_id: id});
+        if (typeof img == 'undefined') {
+            console.log(id);
+            return '';
+        }
+
         return img.url();
     },
 
@@ -31,8 +36,9 @@ Task = React.createClass({
 
         if (typeof this.props.task.files == 'undefined') return '';
 
+
         return this.props.task.files.map((file, i)  => {
-            return <a href={this.imgUrl(file.id)} target="_blank"><img src={this.imgUrl(file.id)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} /></a>;
+            return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id + "-" + i} target="_blank"><img src={this.imgUrl(file.id)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} /></a>;
         });
 
 
