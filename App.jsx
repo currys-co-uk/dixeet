@@ -33,11 +33,18 @@ App = React.createClass({
     },
 
     handleSubmit(event) {
+
         event.preventDefault();
         // Find the text field via the React ref
         var text = React.findDOMNode(this.refs.textInput).value.trim();
+        var name = React.findDOMNode(this.refs.nameInput).value.trim();
+
+        if (text == '') {
+            return;
+        }
 
         var task_id = Tasks.insert({
+            name: name,
             text: text,
             files: filesStore,
             createdAt: new Date() // current time
@@ -112,6 +119,11 @@ App = React.createClass({
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <input
                             type="text"
+                            ref="nameInput"
+                            placeholder="Type your name"
+                            />
+                        <input
+                            type="text"
                             ref="textInput"
                             value={this.state.message}
                             onChange={this.handleChange}
@@ -124,6 +136,7 @@ App = React.createClass({
                             onChange={this.handleFile}
                             ref="fileInput"
                             />
+                        <input type="submit" value="Send" />
                     </form>
                     {this.renderPreviews()}
 
