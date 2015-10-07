@@ -22,11 +22,11 @@ Task = React.createClass({
         Tasks.remove(this.props.task._id);
     },
 
-    imgUrl(id) {
+    imgUrl(id, name) {
         img = Images.findOne({_id: id});
         if (typeof img == 'undefined') {
             console.log(id);
-            return '';
+            return '/cfs/files/images/' + id + '/' + name; //hacking
         }
 
         return img.url();
@@ -38,7 +38,7 @@ Task = React.createClass({
 
 
         return this.props.task.files.map((file, i)  => {
-            return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id + "-" + i} target="_blank"><img src={this.imgUrl(file.id)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} /></a>;
+            return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id + "-" + i} target="_blank"><img src={this.imgUrl(file.id, file.name)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} /></a>;
         });
 
 
