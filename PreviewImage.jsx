@@ -31,7 +31,7 @@ PreviewImage = React.createClass({
 
     render() {
         return (
-            <img onClick={this.deleteImage} height="200" ref="preview" src={this.state.src} />
+            <img onClick={this.deleteImage} height="50" ref="preview" src={this.state.src} style={{float: 'left', marginRight: '5px', marginTop: '5px'}} />
         );
     }
 });

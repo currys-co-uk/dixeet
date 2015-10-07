@@ -33,7 +33,24 @@ App = React.createClass({
     },
 
     handleSubmit(event) {
+        event.preventDefault();
+        // Find the text field via the React ref
+        var text = React.findDOMNode(this.refs.textInput).value.trim();
+
+        var task_id = Tasks.insert({
+            text: text,
+            files: filesStore,
+            createdAt: new Date() // current time
+        });
+
+
+        //console.log(task, 'task'); //ivLzd9xvzbXyKZT93 task
+
+
+
         var files = this.state.files;//this.refs.fileInput.getDOMNode().files;
+
+        var filesStore = [];
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
 
@@ -41,24 +58,21 @@ App = React.createClass({
                 if (err) {
                     console.debug (err)
                 } else {
-                    var imagesURL = {
-                        "profile.image": "/cfs/files/images/" + fileObj._id
+                    console.log(fileObj);
+                    var image = {
+                        id: fileObj._id,
+                        filename: fileObj.collectionName + '-' + fileObj._id + '-' + fileObj.original.name,
+                        name: fileObj.name()
+                        //fileObj: fileObj
                     };
 
-                    console.log(imagesURL);
+                    filesStore.push(image);
+                    var task = Tasks.findOne({_id: task_id});
+                    task['files'] = filesStore;
+                    Tasks.update({_id: task_id}, task);
                 }
             });
         }
-
-        event.preventDefault();
-
-        // Find the text field via the React ref
-        var text = React.findDOMNode(this.refs.textInput).value.trim();
-
-        Tasks.insert({
-            text: text,
-            createdAt: new Date() // current time
-        });
 
         // Clear form
         React.findDOMNode(this.refs.textInput).value = "";
@@ -84,14 +98,14 @@ App = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <h1>Todo List</h1>
+                    <h1>Dixeet</h1>
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <input
                             type="text"
                             ref="textInput"
                             value={this.state.message}
                             onChange={this.handleChange}
-                            placeholder="Type to add new tasks"
+                            placeholder="Type a message"
                             />
                         <input
                             type="file"
@@ -101,8 +115,9 @@ App = React.createClass({
                             ref="fileInput"
                             />
                     </form>
-
                     {this.renderPreviews()}
+
+                    <div style={{clear: 'both'}}></div>
                 </header>
 
 
