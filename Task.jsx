@@ -40,12 +40,12 @@ Task = React.createClass({
                     &times;
                 </button>
 
-                <input
+                {/*<input
                     type="checkbox"
                     readOnly={true}
                     checked={this.props.task.checked}
                     onClick={this.toggleChecked} />
-
+                */}
                 <span className="text">{this.props.task.text}</span>
                 <div>
                 {this.renderPreviews()}
