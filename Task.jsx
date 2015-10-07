@@ -14,6 +14,11 @@ Task = React.createClass({
     },
 
     deleteThisTask() {
+        if (typeof this.props.task.files != 'undefined') {
+            this.props.task.files.forEach(function(el){
+                Images.remove({_id: el.id});
+            });
+        }
         Tasks.remove(this.props.task._id);
     },
 
