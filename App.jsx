@@ -56,10 +56,22 @@ App = React.createClass({
 
         var hashtags = text.match(/(#[a-z|A-Z|0-9|_]+)/gi);
 
+        var uniquehashtags = [];
+        hashtags.forEach(function(el){
+            console.log(el, uniquehashtags);
+            if (uniquehashtags.indexOf(el) === -1) {
+                uniquehashtags.push(el);
+            }
+        });
+
+        uniquehashtags.sort(function(a, b){
+            return a.length - b.length; // ASC -> a - b; DESC -> b - a
+        });
+
 
         var doc = {
             name: name,
-            hashtags: hashtags,
+            hashtags: uniquehashtags,
             text: text,
             files: filesStore,
             createdAt: new Date() // current time
