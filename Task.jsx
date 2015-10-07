@@ -29,7 +29,8 @@ Task = React.createClass({
     },
 
     selectHash(hash) {
-      console.log('selecting hash', hash);
+        console.log('selecting hash', hash);
+        this.props.onHashClick([hash]);
     },
 
     getMessage(text, hash_arr) {

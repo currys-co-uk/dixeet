@@ -4,19 +4,30 @@ App = React.createClass({
     mixins: [ReactMeteorData],
 
     getInitialState: function() {
-        return {files: [], message: ''};
+        return {files: [], message: '', hashtags: []};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
     getMeteorData() {
-        return {
-            tasks: Tasks.find({}, {sort: {createdAt: -1}}).fetch()
+
+        var query = {};
+
+        if (this.state.hashtags.length != 0) {
+            query = {"hashtags": {$all: this.state.hashtags}};
         }
+
+        return {
+            tasks: Tasks.find(query, {sort: {createdAt: -1}}).fetch()
+        }
+    },
+
+    selectHashtags(hashs) {
+      this.setState({hashtags: hashs});
     },
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} />;
+            return <Task key={task._id} task={task} onHashClick={this.selectHashtags} />;
         });
     },
 
@@ -46,13 +57,16 @@ App = React.createClass({
         var hashtags = text.match(/(#[a-z|A-Z|0-9|_]+)/gi);
 
 
-        var task_id = Tasks.insert({
+        var doc = {
             name: name,
             hashtags: hashtags,
             text: text,
             files: filesStore,
             createdAt: new Date() // current time
-        });
+        };
+        console.log('inserting', doc);
+
+        var task_id = Tasks.insert(doc);
 
 
         //console.log(task, 'task'); //ivLzd9xvzbXyKZT93 task
@@ -119,7 +133,7 @@ App = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <h1>Dixeet</h1>
+                    <h1>Dixeet - <span onClick={function(){this.selectHashtags([])}.bind(this)}>{this.state.hashtags.join(', ')} [show all]</span></h1>
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <input
                             type="text"
@@ -140,9 +154,9 @@ App = React.createClass({
                             onChange={this.handleFile}
                             ref="fileInput"
                             />
+                        {this.renderPreviews()}
                         <input type="submit" value="Send" />
                     </form>
-                    {this.renderPreviews()}
 
                     <div style={{clear: 'both'}}></div>
                 </header>
