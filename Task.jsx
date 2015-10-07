@@ -28,6 +28,33 @@ Task = React.createClass({
 
     },
 
+    selectHash(hash) {
+      console.log('selecting hash', hash);
+    },
+
+    getMessage(text, hash_arr) {
+        if (hash_arr == null || hash_arr.length == 0) {
+            return <span>{text}</span>;
+        }
+        var hash = hash_arr.pop();
+        var arr = text.split(hash);
+        var arr_jsx = [];
+        for(var i=0; i<arr.length;i++) {
+
+            arr_jsx.push(<span>{this.getMessage(arr[i], hash_arr)}</span>);
+            if (i < arr.length-1) {
+                arr_jsx.push(<span className="hashtag" onClick={function() {this.selectHash(hash)}.bind(this)}>{hash}</span>);
+            }
+        }
+        return arr_jsx;
+    },
+
+    hashtags() {
+        if (typeof this.props.task.hashtags == 'undefined') return '';
+        if (this.props.task.hashtags == null) return '';
+        return this.props.task.hashtags.join(', ');
+    },
+
     render() {
         // Give tasks a different className when they are checked off,
         // so that we can style them nicely in CSS
@@ -46,7 +73,7 @@ Task = React.createClass({
                     checked={this.props.task.checked}
                     onClick={this.toggleChecked} />
                 */}
-                <span className="text">{this.props.task.name}: {this.props.task.text}</span>
+                <span className="text">{this.props.task.name}: {this.getMessage(this.props.task.text, this.props.task.hashtags)}</span>
                 <div>
                 {this.renderPreviews()}
                 </div>

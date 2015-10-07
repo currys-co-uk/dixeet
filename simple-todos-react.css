@@ -124,3 +124,9 @@ header .hide-completed {
         padding-bottom: 5px;
     }
 }
+
+.hashtag {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -39,12 +39,16 @@ App = React.createClass({
         var text = React.findDOMNode(this.refs.textInput).value.trim();
         var name = React.findDOMNode(this.refs.nameInput).value.trim();
 
-        if (text == '') {
+        if (text == '' || name == '') {
             return;
         }
 
+        var hashtags = text.match(/(#[a-z|A-Z|0-9|_]+)/gi);
+
+
         var task_id = Tasks.insert({
             name: name,
+            hashtags: hashtags,
             text: text,
             files: filesStore,
             createdAt: new Date() // current time
