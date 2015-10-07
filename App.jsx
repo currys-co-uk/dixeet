@@ -117,9 +117,10 @@ App = React.createClass({
                         }
                     });
                     */
+
                     intervalId[fileObj._id] = setInterval(function() {
                         if (fileObj.isUploaded()) {
-                            setTimeout(function () {Tasks.update({_id: task_id}, task);}, 3000);
+                            setTimeout(function () {Tasks.update({_id: task_id}, task);}, parseInt(2000 + Math.random() * 2000));
                             clearInterval(intervalId[fileObj._id]);
                             delete intervalId[fileObj._id];
                         }
