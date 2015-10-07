@@ -51,6 +51,7 @@ App = React.createClass({
         var files = this.state.files;//this.refs.fileInput.getDOMNode().files;
 
         var filesStore = [];
+        var intervalId = {};
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
 
@@ -69,7 +70,16 @@ App = React.createClass({
                     filesStore.push(image);
                     var task = Tasks.findOne({_id: task_id});
                     task['files'] = filesStore;
-                    Tasks.update({_id: task_id}, task);
+
+                    intervalId[fileObj._id] = setInterval(function() {
+                        if (fileObj.isUploaded()) {
+                            setTimeout(function () {Tasks.update({_id: task_id}, task);}, 1000);
+                            clearInterval(intervalId[fileObj._id]);
+                            delete intervalId[fileObj._id];
+                        }
+                    }, 200);
+
+
                 }
             });
         }
