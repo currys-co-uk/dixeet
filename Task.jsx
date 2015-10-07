@@ -44,7 +44,7 @@ Task = React.createClass({
 
             arr_jsx.push(<span>{this.getMessage(arr[i], hash_arr)}</span>);
             if (i < arr.length-1) {
-                arr_jsx.push(<span className="hashtag" onClick={function() {this.selectHash(hash)}.bind(this)}>{hash}</span>);
+                arr_jsx.push(<span className="hashtag" onClick={this.selectHash.bind(this, hash)}>{hash}</span>);
             }
         }
         return arr_jsx;

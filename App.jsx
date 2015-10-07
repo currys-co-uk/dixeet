@@ -133,7 +133,7 @@ App = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <h1>Dixeet - <span onClick={function(){this.selectHashtags([])}.bind(this)}>{this.state.hashtags.join(', ')} [show all]</span></h1>
+                    <h1>Dixeet - <span onClick={this.selectHashtags.bind(this, [])}>{this.state.hashtags.join(', ')} [show all]</span></h1>
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <input
                             type="text"
