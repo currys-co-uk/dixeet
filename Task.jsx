@@ -32,7 +32,7 @@ Task = React.createClass({
         if (typeof this.props.task.files == 'undefined') return '';
 
         return this.props.task.files.map((file, i)  => {
-            return <img src={this.imgUrl(file.id)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} />;
+            return <a href={this.imgUrl(file.id)} target="_blank"><img src={this.imgUrl(file.id)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} /></a>;
         });
 
 
