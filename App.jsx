@@ -100,7 +100,8 @@ App = React.createClass({
                     var image = {
                         id: fileObj._id,
                         filename: fileObj.collectionName + '-' + fileObj._id + '-' + fileObj.original.name,
-                        name: fileObj.name()
+                        name: fileObj.name(),
+                        type: fileObj.type()
                         //fileObj: fileObj
                     };
 
