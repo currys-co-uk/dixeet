@@ -2,6 +2,7 @@
 App = React.createClass({
     // This mixin makes the getMeteorData method work
     mixins: [ReactMeteorData],
+    messageLimit: 160,
 
     componentDidMount() {
         setInterval(function() {
@@ -38,9 +39,11 @@ App = React.createClass({
     },
 
     renderPreviews() {
-        return this.state.files.map((file, i)  => {
+        var previewItems = this.state.files.map((file, i)  => {
             return <PreviewImage file={file} onDelete={this.removePreview} index={i} />;
         });
+
+        return <div className="preview-images">{previewItems}</div>
     },
 
     removePreview(index) {
@@ -152,7 +155,11 @@ App = React.createClass({
     },
 
     handleChange: function(e) {
-        this.setState({message: e.target.value});
+        var message = e.target.value;
+
+        if (message.length <= this.messageLimit) {
+            this.setState({message: e.target.value});
+        }
     },
 
 
@@ -176,13 +183,15 @@ App = React.createClass({
 
     render() {
         var containerClass = 'container ' + (this.state.formHidden ? 'form-hidden ' : '');
+        var messageCharsLeft = this.messageLimit - this.state.message.length;
+        var charsLeftButtonClass = messageCharsLeft <= 20 ? 'chars-left-low ' : '';
 
         return (
             <div className={containerClass}>
                 <header>
                     <h1>
                         <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}
-                        {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>show form</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
+                        {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
                     </h1>
 
                     <form className="new-task" onSubmit={this.handleSubmit} >
@@ -193,7 +202,7 @@ App = React.createClass({
                             placeholder="Type your name"
                             />
 
-                        <label>Your message:</label>
+                        <label>Your message: (<span className={charsLeftButtonClass}>{messageCharsLeft}</span>)</label>
                         <textarea
                             type="text"
                             ref="textInput"

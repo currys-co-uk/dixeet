@@ -219,29 +219,63 @@ form {
         margin-bottom: 7px;
         display: block;
         font-weight: 600;
+
+        span.chars-left-low {
+            color: #e74c3c;
+        }
     }
 
-    img {
-        border: 2px solid transparent;
+    .preview-images {
+        margin-top: 10px;
 
-        &:hover {
-            border-color: #f00;
-            cursor: pointer;
+        .preview-image {
+            display: inline-block;
+            position: relative;
 
-            /* IE 8 */
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+            img.delete-preview {
+                display: none;
+                position: absolute;
+                border: none;
+                line-height: 0;
 
-            /* IE 5-7 */
-            filter: alpha(opacity=40);
+                top: 50%;
+                left: 50%;
+                margin-top: -8px;
+                margin-left: -8px;
+            }
 
-            /* Netscape */
-            -moz-opacity: 0.4;
+            &:hover {
+                background: rgba(255, 0, 0, .12);
 
-            /* Safari 1.x */
-            -khtml-opacity: 0.4;
+                img.delete-preview {
+                    display: block;
+                }
+            }
 
-            /* Good browsers */
-            opacity: 0.4;
+            img {
+                border: 2px solid transparent;
+                display: block;
+
+                &:hover {
+                    border-color: #f00;
+                    cursor: pointer;
+
+                    /* IE 8 */
+                    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+
+                    /* IE 5-7 */
+                    filter: alpha(opacity=40);
+
+                    /* Netscape */
+                    -moz-opacity: 0.4;
+
+                    /* Safari 1.x */
+                    -khtml-opacity: 0.4;
+
+                    /* Good browsers */
+                    opacity: 0.4;
+                }
+            }
         }
     }
 }

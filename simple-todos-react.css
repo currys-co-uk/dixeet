@@ -193,10 +193,37 @@ form {
   display: block;
   font-weight: 600;
 }
-.new-task img {
-  border: 2px solid transparent;
+.new-task label span.chars-left-low {
+  color: #e74c3c;
 }
-.new-task img:hover {
+.new-task .preview-images {
+  margin-top: 10px;
+}
+.new-task .preview-images .preview-image {
+  display: inline-block;
+  position: relative;
+}
+.new-task .preview-images .preview-image img.delete-preview {
+  display: none;
+  position: absolute;
+  border: none;
+  line-height: 0;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
+}
+.new-task .preview-images .preview-image:hover {
+  background: rgba(255, 0, 0, 0.12);
+}
+.new-task .preview-images .preview-image:hover img.delete-preview {
+  display: block;
+}
+.new-task .preview-images .preview-image img {
+  border: 2px solid transparent;
+  display: block;
+}
+.new-task .preview-images .preview-image img:hover {
   border-color: #f00;
   cursor: pointer;
   /* IE 8 */

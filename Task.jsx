@@ -33,15 +33,11 @@ Task = React.createClass({
     },
 
     renderPreviews() {
-
         if (typeof this.props.task.files == 'undefined') return '';
-
 
         return this.props.task.files.map((file, i)  => {
             return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id} target="_blank"><img src={this.imgUrl(file.id, file.name)} /></a>;
         });
-
-
     },
 
     selectHash(hash) {
