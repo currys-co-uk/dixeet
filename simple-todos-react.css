@@ -1,7 +1,7 @@
 /* CSS declarations go here */
 body {
   font-family: "Open Sans", sans-serif;
-  background-color: #315481;
+  background-color: #DBE5FF;
   background-image: linear-gradient(to top, #dbffdd, #dbe5ff);
   background-attachment: fixed;
   position: absolute;
@@ -21,7 +21,7 @@ body {
   box-shadow: 0 0 90px rgba(0, 0, 0, 0.1);
 }
 header {
-  background: #f7f7f7;
+  background: #f3f2f2;
   padding: 20px 15px 25px 15px;
   position: relative;
 }
@@ -31,21 +31,59 @@ header {
 h1 {
   font-size: 1.8em;
   margin: 0;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   display: block;
   font-weight: 600;
   padding-bottom: 10px;
-  border-bottom: 1px solid #A7C3D0;
+  border-bottom: 2px solid #DFE4E6;
+  vertical-align: middle;
+}
+h1 #logo {
+  vertical-align: middle;
 }
 h1 .header__hashtag {
-  color: #f47721;
+  color: #fff;
+  display: inline-block;
+  padding: 4px;
+  padding-left: 20px;
+  padding-right: 18px;
+  line-height: 20px;
+  height: 20px;
+  font-size: 15px;
+  background: #f47721;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  vertical-align: middle;
+  position: relative;
+}
+h1 .header__hashtag::after {
+  background: #f3f2f2;
+  border-bottom: 14px solid transparent;
+  border-left: 10px solid #f47721;
+  border-top: 14px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+h1 .header__hashtag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 8px;
+  position: absolute;
+  width: 6px;
+  top: 11px;
 }
 h1 .header__showall {
   margin-left: 7px;
   display: inline-block;
   cursor: pointer;
   position: relative;
-  top: 1px;
+  top: 3px;
 }
 h1 .header__showall:hover {
   color: #f00;
@@ -68,6 +106,8 @@ form {
   font-weight: 100;
   font-family: "Open Sans", sans-serif;
   padding: 0;
+  background: #fff;
+  padding: 10px;
 }
 .new-task input[type=text]::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
@@ -99,6 +139,7 @@ form {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  outline: none;
 }
 .new-task input[type=submit]:hover {
   background: #B3C734;

@@ -92,11 +92,22 @@ Task = React.createClass({
         return this.props.task.hashtags.join(', ');
     },
 
-    formatDate(dateString) {
-        var time = moment(dateString);
-        var now = moment();
+    formatDate() {
+        var time = moment(this.props.task.createdAt);
+        var now = this.props.appTime;
 
         return time.from(now);
+    },
+
+    displayDeleteButton() {
+        var time = moment(this.props.task.createdAt);
+        var now = this.props.appTime;
+
+        if (now.diff(time, 'seconds') < 30) {
+            return <button className="delete" onClick={this.deleteThisTask}>&times;</button>;
+        }
+
+        return '';
     },
 
     render() {
@@ -107,11 +118,9 @@ Task = React.createClass({
 
         return (
             <li className={taskClassName}>
-                <button className="delete" onClick={this.deleteThisTask}>
-                    &times;
-                </button>
+                {this.displayDeleteButton()}
 
-                <div className="task__info"><strong className="task__info__name">@{this.props.task.name}</strong> <span className="task__info__date">{this.formatDate(this.props.task.createdAt)}</span></div>
+                <div className="task__info"><strong className="task__info__name">@{this.props.task.name}</strong> <span className="task__info__date">{this.formatDate()}</span></div>
                 <div className="task__message">{this.getMessage(this.props.task.text, this.props.task.hashtags)}</div>
                 <div className="task__previews">{this.renderPreviews()}</div>
             </li>

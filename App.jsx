@@ -3,8 +3,14 @@ App = React.createClass({
     // This mixin makes the getMeteorData method work
     mixins: [ReactMeteorData],
 
+    componentDidMount() {
+        setInterval(function() {
+            this.setState({appTime: moment()});
+        }.bind(this), 30000);
+    },
+
     getInitialState: function() {
-        return {files: [], message: '', hashtags: []};
+        return {files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -27,7 +33,7 @@ App = React.createClass({
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} onHashClick={this.selectHashtags} />;
+            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.selectHashtags} />;
         });
     },
 
@@ -133,7 +139,7 @@ App = React.createClass({
         // Clear form
         React.findDOMNode(this.refs.textInput).value = "";
 
-        this.setState({files: [], message: ''});
+        this.setState({files: [], message: '', uploadResetCounter: this.state.uploadResetCounter + 1});
     },
 
     handleFile(event) {
@@ -168,16 +174,16 @@ App = React.createClass({
         return (
             <div className="container">
                 <header>
-                    <h1>Dixeet {this.renderHeaderSelectedTags()}</h1>
+                    <h1><img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}</h1>
                     <form className="new-task" onSubmit={this.handleSubmit} >
-                        <label>Jméno:</label>
+                        <label>Your name:</label>
                         <input
                             type="text"
                             ref="nameInput"
                             placeholder="Type your name"
                             />
 
-                        <label>Zpráva:</label>
+                        <label>Your message:</label>
                         <textarea
                             type="text"
                             ref="textInput"
@@ -191,6 +197,7 @@ App = React.createClass({
                             multiple
                             onChange={this.handleFile}
                             ref="fileInput"
+                            uploadResetCounter={this.state.uploadResetCounter}
                             />
                         {this.renderPreviews()}
                         <input type="submit" value="Send" />
