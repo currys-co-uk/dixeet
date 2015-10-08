@@ -155,12 +155,15 @@ App = React.createClass({
                 <header>
                     <h1>Dixeet - <span onClick={this.selectHashtags.bind(this, [])}>{this.state.hashtags.join(', ')} [show all]</span></h1>
                     <form className="new-task" onSubmit={this.handleSubmit} >
+                        <label>Jméno:</label>
                         <input
                             type="text"
                             ref="nameInput"
                             placeholder="Type your name"
                             />
-                        <input
+
+                        <label>Zpráva:</label>
+                        <textarea
                             type="text"
                             ref="textInput"
                             value={this.state.message}
