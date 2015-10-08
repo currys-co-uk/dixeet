@@ -150,11 +150,25 @@ App = React.createClass({
     },
 
 
+    renderHeaderSelectedTags() {
+        if (this.state.hashtags.length) {
+            var hashes = this.state.hashtags.map(function(hash) {
+                return <span className="header__hashtag">{hash}</span>
+            });
+            hashes.push(<span className="header__showall" onClick={this.selectHashtags.bind(this, [])}>&times;</span>)
+
+            return <span> - {hashes}</span>;
+        } else {
+            return '';
+        }
+    },
+
+
     render() {
         return (
             <div className="container">
                 <header>
-                    <h1>Dixeet - <span onClick={this.selectHashtags.bind(this, [])}>{this.state.hashtags.join(', ')} [show all]</span></h1>
+                    <h1>Dixeet {this.renderHeaderSelectedTags()}</h1>
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <label>Jméno:</label>
                         <input

@@ -38,7 +38,7 @@ Task = React.createClass({
 
 
         return this.props.task.files.map((file, i)  => {
-            return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id + "-" + i} target="_blank"><img src={this.imgUrl(file.id, file.name)}  style={{float: 'left', marginRight: '5px', marginTop: '5px', height: '50px'}} /></a>;
+            return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id} target="_blank"><img src={this.imgUrl(file.id, file.name)} /></a>;
         });
 
 
@@ -71,10 +71,17 @@ Task = React.createClass({
         return this.props.task.hashtags.join(', ');
     },
 
+    formatDate(dateString) {
+        var time = moment(dateString);
+        var now = moment();
+
+        return time.from(now);
+    },
+
     render() {
         // Give tasks a different className when they are checked off,
         // so that we can style them nicely in CSS
-        const taskClassName = this.props.task.checked ? "checked" : "";
+        const taskClassName = "task " + (this.props.task.checked ? "checked" : "");
         //console.log(this.props.task);
 
         return (
@@ -83,11 +90,9 @@ Task = React.createClass({
                     &times;
                 </button>
 
-                <span className="text">{this.props.task.name}: {this.getMessage(this.props.task.text, this.props.task.hashtags)}</span>
-                <div>
-                {this.renderPreviews()}
-                </div>
-                <div style={{clear: 'both'}}></div>
+                <div className="task__info"><strong className="task__info__name">@{this.props.task.name}</strong> <span className="task__info__date">{this.formatDate(this.props.task.createdAt)}</span></div>
+                <div className="task__message">{this.getMessage(this.props.task.text, this.props.task.hashtags)}</div>
+                <div className="task__previews">{this.renderPreviews()}</div>
             </li>
         );
     }
