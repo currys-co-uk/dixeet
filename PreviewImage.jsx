@@ -30,10 +30,16 @@ PreviewImage = React.createClass({
     },
 
     render() {
+        if (this.props.file.type.match(/image/) != null) {
+            var img = <img ref="preview" height="50" src={this.state.src} />;
+        } else {
+            var img = <img ref="preview" height="50" title={this.props.file.name} src="download_icon.png" />;
+        }
+
         return (
             <div className="preview-image" onClick={this.deleteImage}>
                 <img src="delete_icon.png" className="delete-preview" />
-                <img height="50" ref="preview" src={this.state.src} />
+                {img}
             </div>
         );
     }
