@@ -2,7 +2,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   background-color: #315481;
-  background-image: linear-gradient(to bottom, #315481, #918e82 100%);
+  background-image: linear-gradient(to top, #dbffdd, #dbe5ff);
   background-attachment: fixed;
   position: absolute;
   top: 0;
@@ -18,6 +18,7 @@ body {
   margin: 0 auto;
   min-height: 100%;
   background: white;
+  box-shadow: 0 0 90px rgba(0, 0, 0, 0.1);
 }
 header {
   background: #f7f7f7;
@@ -184,6 +185,13 @@ li {
 }
 .task .task__message .hashtag:hover {
   background: #eee;
+}
+.task .task__message a {
+  color: #00a4e4;
+  font-weight: 600;
+}
+.task .task__message a:hover {
+  text-decoration: none;
 }
 .task .task__previews {
   margin-top: 10px;
