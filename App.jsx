@@ -10,7 +10,7 @@ App = React.createClass({
     },
 
     getInitialState: function() {
-        return {files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0};
+        return {files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -169,12 +169,22 @@ App = React.createClass({
         }
     },
 
+    toggleForm(hidden) {
+        this.setState({formHidden: hidden});
+    },
+
 
     render() {
+        var containerClass = 'container ' + (this.state.formHidden ? 'form-hidden ' : '');
+
         return (
-            <div className="container">
+            <div className={containerClass}>
                 <header>
-                    <h1><img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}</h1>
+                    <h1>
+                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}
+                        {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>show form</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
+                    </h1>
+
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <label>Your name:</label>
                         <input

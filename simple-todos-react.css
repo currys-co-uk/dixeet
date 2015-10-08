@@ -20,10 +20,36 @@ body {
   background: white;
   box-shadow: 0 0 90px rgba(0, 0, 0, 0.1);
 }
+.container.form-hidden form {
+  display: none;
+}
 header {
   background: #f3f2f2;
   padding: 20px 15px 25px 15px;
   position: relative;
+}
+.form-hidden header {
+  padding-bottom: 20px;
+}
+header .toggleFormButton {
+  background: #ddd;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  border: none;
+  display: inline-block;
+  padding: 7px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  font-size: 13px;
+  float: right;
+  margin-top: 3px;
+}
+.form-hidden header .toggleFormButton {
+  background: #c1d82f;
 }
 #login-buttons {
   display: block;
@@ -37,6 +63,11 @@ h1 {
   padding-bottom: 10px;
   border-bottom: 2px solid #DFE4E6;
   vertical-align: middle;
+}
+.form-hidden h1 {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 h1 #logo {
   vertical-align: middle;
