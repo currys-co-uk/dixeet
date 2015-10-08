@@ -49,9 +49,30 @@ Task = React.createClass({
         this.props.onHashClick([hash]);
     },
 
+    linkify(text, links_arr) {
+        if (links_arr == null || links_arr.length == 0) {
+            return <span>{text}</span>;
+        }
+
+        var link = links_arr.pop();
+        console.log(link, links_arr, text);
+        var arr = text.split(link.value);
+        var arr_jsx = [];
+        for(var i=0; i<arr.length;i++) {
+            arr_jsx.push(<span>{this.linkify(arr[i], links_arr.slice(0))}</span>);
+            if (i < arr.length-1) {
+                //console.log('<a href=' + link.href + '>--' + link.value + '--</a>', link);
+                arr_jsx.push(<a href={link.href}>{link.value}</a>);
+            }
+        }
+        return arr_jsx;
+    },
+
+
     getMessage(text, hash_arr) {
         if (hash_arr == null || hash_arr.length == 0) {
-            return <span>{text}</span>;
+            links_arr = linkify.find(text);
+            return <span>{this.linkify(text, links_arr)}</span>;
         }
         var hash = hash_arr.pop();
         var arr = text.split(hash);
