@@ -36,7 +36,13 @@ Task = React.createClass({
         if (typeof this.props.task.files == 'undefined') return '';
 
         return this.props.task.files.map((file, i)  => {
-            return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id} target="_blank"><img src={this.imgUrl(file.id, file.name)} /></a>;
+            var lightboxAttr = '';
+
+            if (file.type.match(/image/) != null) {
+                return <a href={this.imgUrl(file.id)} data-lightbox={this.props.task._id} target="_blank"><img src={this.imgUrl(file.id, file.name)} /></a>;
+            }
+
+            return <a href={this.imgUrl(file.id)} target="_blank"><img title={file.name} src="download_icon.png" /></a>;
         });
     },
 
