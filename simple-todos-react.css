@@ -321,6 +321,10 @@ li {
   font-size: 18px;
   font-weight: 400;
 }
+.task .task__info .task__info__name:hover {
+  color: #f47721;
+  cursor: pointer;
+}
 .task .task__info .task__info__date {
   display: inline-block;
   margin-left: 4px;
