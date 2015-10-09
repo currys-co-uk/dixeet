@@ -110,7 +110,10 @@ Task = React.createClass({
         var time = moment(this.props.task.createdAt);
         var now = this.props.appTime;
 
-        if (now.diff(time, 'seconds') < 30) {
+        if (
+            (now.diff(time, 'seconds') < 30 && (this.props.role == 'admin' || this.props.role == 'writer')) ||
+            this.props.role == 'admin'
+        ) {
             return <button className="delete" onClick={this.deleteThisTask}>&times;</button>;
         }
 

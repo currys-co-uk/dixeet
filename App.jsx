@@ -23,15 +23,20 @@ App = React.createClass({
     },
 
     getInitialState: function() {
+        var role = 'user';
+
         if (window.location.href.indexOf('?role=writer_042147cfc6f945cfff88da4c91fecf79') !== -1) {
             role = 'writer';
-        }else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
+        } else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
             role = 'admin';
-        }else {
-            role = 'user';
         }
 
         return {role: role, files: [], message: '', logins: [], hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+    },
+
+
+    hasRole(role) {
+        return this.state.role == role;
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -101,7 +106,7 @@ App = React.createClass({
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} onLoginClick={this.addLogin}/>;
+            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} role={this.state.role} onLoginClick={this.addLogin}/>;
         });
     },
 
@@ -271,24 +276,33 @@ App = React.createClass({
                         <img id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.role}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
                     </h1>
 
+                    <div className="clear"></div>
+
                     <form id="search-form">
                         <input type="text" />
                         <button type="submit">search</button>
                     </form>
 
-                    {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
+                    {
+                        this.hasRole('admin') || this.hasRole('writer')
+                        ? this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>
+                        : ''
+                    }
 
                     <div className="clear"></div>
 
-                    <form className="new-task" onSubmit={this.handleSubmit} >
-                        <label>Your name:</label>
-                        <input
-                            type="text"
-                            ref="nameInput"
-                            placeholder="Type your name"
-                            />
+                    {
+                        this.hasRole('admin') || this.hasRole('writer') ?
+                        <form className="new-task" onSubmit={this.handleSubmit}>
+                            <label>Your name:</label>
+                            <input
+                                type="text"
+                                ref="nameInput"
+                                placeholder="Type your name"
+                                />
 
-                        <label>Your message: (<span className={charsLeftButtonClass}>{messageCharsLeft}</span>)</label>
+                            <label>Your message: (<span
+                                className={charsLeftButtonClass}>{messageCharsLeft}</span>)</label>
                         <textarea
                             type="text"
                             ref="textInput"
@@ -296,17 +310,18 @@ App = React.createClass({
                             onChange={this.handleChange}
                             placeholder="Type a message"
                             />
-                        <input
-                            type="file"
-                            class="myFileInput"
-                            multiple
-                            onChange={this.handleFile}
-                            ref="fileInput"
-                            uploadResetCounter={this.state.uploadResetCounter}
-                            />
-                        {this.renderPreviews()}
-                        <input type="submit" value="Send" />
-                    </form>
+                            <input
+                                type="file"
+                                class="myFileInput"
+                                multiple
+                                onChange={this.handleFile}
+                                ref="fileInput"
+                                uploadResetCounter={this.state.uploadResetCounter}
+                                />
+                            {this.renderPreviews()}
+                            <input type="submit" value="Send"/>
+                        </form> : ''
+                    }
                 </header>
 
                 <ul>
