@@ -22,7 +22,22 @@ App = React.createClass({
 
     },
 
+    getStreamName(url) {
+        var re = /\/([a-z|A-Z|0-9|-|-|_]+)\//;
+        var m;
+
+        if ((m = re.exec(url)) !== null) {
+            if (m.index === re.lastIndex) {
+                re.lastIndex++;
+            }
+            return m[1];
+        }
+
+        return null;
+    },
+
     getInitialState: function() {
+
         Meteor.call('getRole', window.location.href, function(error, result){
             if(error){
                 //Error handling code
@@ -35,7 +50,7 @@ App = React.createClass({
         }.bind(this));
 
 
-        return {role: 'user', files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        return {stream: this.getStreamName(window.location.href), role: 'user', files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
 
@@ -64,6 +79,10 @@ App = React.createClass({
 
         if (this.state.messageFilter !== null) {
             query["text"] = new RegExp(this.state.messageFilter, 'gi');
+        }
+
+        if (this.state.stream !== null) {
+            query["stream"] = new RegExp(this.state.stream, 'gi');
         }
 
         return {
@@ -131,8 +150,12 @@ App = React.createClass({
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} role={this.state.role} onLoginClick={this.addLogin}/>;
+            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} role={this.state.role} onLoginClick={this.addLogin} onStreamClick={this.setStream}/>;
         });
+    },
+
+    setStream(name) {
+        this.setState({stream: name});
     },
 
     renderPreviews() {
@@ -197,6 +220,7 @@ App = React.createClass({
 
 
         var doc = {
+            stream: this.state.stream,
             name: name,
             ip: this.state.ip,
             hashtags: uniquehashtags,
@@ -316,7 +340,7 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.role}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
+                        <img onClick={function(){this.setState({stream: null})}.bind(this)} id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.stream}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
                     </h1>
 
                     <div className="clear"></div>
