@@ -63,7 +63,6 @@ header {
         cursor: pointer;
         font-size: 13px;
         float: right;
-        margin-top: 3px;
 
         .form-hidden & {
             background: #c1d82f;
@@ -71,9 +70,11 @@ header {
     }
 
     form#search-form {
-        float: left;
+        float: none;
+        margin-right: 100px;
         margin-top: 0;
         margin-bottom: 0;
+        display: flex;
 
         input[type=text] {
             border: none;
@@ -81,14 +82,16 @@ header {
             line-height: 31px;
             margin-right: 5px;
             height: 31px;
-            width: 230px;
+            display: block;
+            width: auto;
             font-size: 13px;
             padding: 0 8px;
+            flex: 10 1;
         }
 
         button {
             border: none;
-            font-size: 14px;
+            font-size: 13px;
             padding: 7px;
             background: #c1d82f;
             color: #fff;
@@ -98,6 +101,7 @@ header {
             -moz-border-radius: 5px;
             border-radius: 5px;
             outline: none;
+            float: right;
 
             &:hover {
                 background: #B3C734;

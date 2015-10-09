@@ -186,7 +186,7 @@ App = React.createClass({
 
         var task_id = Tasks.insert(doc);
 
-        var files = this.state.files;//this.refs.fileInput.getDOMNode().files;
+        var files = this.state.files;
 
         var filesStore = [];
         var intervalId = {};
@@ -299,17 +299,16 @@ App = React.createClass({
 
                     <div className="clear"></div>
 
-                    <form id="search-form" onSubmit={this.handleSearchSubmit}>
-                        <input type="text" ref="searchFormInput" />
-
-                        <button type="submit">search</button>
-                    </form>
-
                     {
                         this.hasRole('admin') || this.hasRole('writer')
                         ? this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>
                         : ''
                     }
+
+                    <form id="search-form" onSubmit={this.handleSearchSubmit}>
+                        <input type="text" ref="searchFormInput" />
+                        <button type="submit">search</button>
+                    </form>
 
                     <div className="clear"></div>
 
@@ -325,21 +324,15 @@ App = React.createClass({
 
                             <label>Your message: (<span
                                 className={charsLeftButtonClass}>{messageCharsLeft}</span>)</label>
-                        <textarea
-                            type="text"
-                            ref="textInput"
-                            value={this.state.message}
-                            onChange={this.handleChange}
-                            placeholder="Type a message"
+                            <textarea
+                                type="text"
+                                ref="textInput"
+                                value={this.state.message}
+                                onChange={this.handleChange}
+                                placeholder="Type a message"
                             />
-                            <input
-                                type="file"
-                                class="myFileInput"
-                                multiple
-                                onChange={this.handleFile}
-                                ref="fileInput"
-                                uploadResetCounter={this.state.uploadResetCounter}
-                                />
+                            <FileInput key={"add" + this.state.uploadResetCounter} onChange={this.handleFile} />
+
                             {this.renderPreviews()}
                             <input type="submit" value="Send"/>
                         </form> : ''
