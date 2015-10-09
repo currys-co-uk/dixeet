@@ -1,4 +1,18 @@
 /* CSS declarations go here */
+.stream {
+  float: right;
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 12px;
+  color: #666;
+  margin-top: 7px;
+  cursor: Pointer;
+}
+
+header img {
+  cursor: Pointer;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   background-color: #DBE5FF;

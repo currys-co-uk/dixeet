@@ -139,7 +139,7 @@ Task = React.createClass({
             <li className={taskClassName}>
                 {this.displayDeleteButton()}
 
-                <div className="task__info"><strong className="task__info__name" title={this.props.task.ip} onClick={this.selectUser.bind(this, this.props.task.name)}>@{this.props.task.name}</strong> <span className="task__info__date">{this.formatDate()} <span onClick={this.selectStream.bind(this, this.props.task.stream)}>{this.props.task.stream}</span></span></div>
+                <div className="task__info"><strong className="task__info__name" title={this.props.task.ip} onClick={this.selectUser.bind(this, this.props.task.name)}>@{this.props.task.name}</strong> <span className="task__info__date">{this.formatDate()}</span> <span className="stream" onClick={this.selectStream.bind(this, this.props.task.stream)}>{this.props.task.stream}</span> </div>
                 <div className="task__message">{this.getMessage(this.props.task.text, this.props.task.hashtags)}</div>
                 <div className="task__previews">{this.renderPreviews()}</div>
             </li>
