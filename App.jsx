@@ -340,7 +340,8 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img onClick={function(){this.setState({stream: null})}.bind(this)} id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.stream}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
+                        <img onClick={function(){FlowRouter.go('/');  //TODO: meteor remove kadira:flow-router
+                            this.setState({stream: null})}.bind(this)} id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.stream}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
                     </h1>
 
                     <div className="clear"></div>

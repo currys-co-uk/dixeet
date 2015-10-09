@@ -13,3 +13,4 @@ tomi:upload-jquery
 cfs:standard-packages
 cfs:gridfs
 cfs:filesystem
+kadira:flow-router

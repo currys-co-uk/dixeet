@@ -28,7 +28,7 @@ cfs:upload-http@0.0.20
 cfs:worker@0.1.4
 check@1.0.5
 coffeescript@1.0.6
-cosmos:browserify@0.4.0
+cosmos:browserify@0.5.0
 ddp@1.1.0
 deps@1.0.7
 ejson@1.0.6
@@ -42,6 +42,7 @@ insecure@1.0.3
 jquery@1.11.3_2
 json@1.0.3
 jsx@0.1.6
+kadira:flow-router@2.7.0
 launch-screen@1.0.2
 livedata@1.0.13
 logging@1.0.7
