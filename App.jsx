@@ -8,9 +8,23 @@ App = React.createClass({
         setInterval(function() {
             this.setState({appTime: moment()});
         }.bind(this), 30000);
+
+
+        Meteor.call('getIP', function(error, result){
+            if(error){
+                //Error handling code
+                console.log(error);
+            }
+            else {
+                this.setState({ip: result});
+            }
+        }.bind(this));
+
     },
 
     getInitialState: function() {
+
+
         if (window.location.href.indexOf('?role=writer_042147cfc6f945cfff88da4c91fecf79') !== -1) {
             role = 'writer';
         }else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
@@ -18,7 +32,7 @@ App = React.createClass({
         }else {
             role = 'user';
         }
-        console.log(window.location.href);
+
         return {role: role, files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
@@ -91,6 +105,7 @@ App = React.createClass({
 
         var doc = {
             name: name,
+            ip: this.state.ip,
             hashtags: uniquehashtags,
             text: text,
             files: filesStore,
