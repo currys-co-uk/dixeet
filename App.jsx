@@ -16,7 +16,6 @@ App = React.createClass({
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
     getMeteorData() {
-
         var query = {};
 
         if (this.state.hashtags.length != 0) {
@@ -28,13 +27,35 @@ App = React.createClass({
         }
     },
 
+    addHashTag(hash) {
+        var hashes = this.state.hashtags;
+        hashes.push(hash);
+
+        // filter only unique values
+        hashes = hashes.filter(function(value, index, self) {
+            return self.indexOf(value) === index;
+        });
+
+        this.setState({hashtags: hashes})
+    },
+
+    removeSelectedHashtags(hash) {
+        var hashes = this.state.hashtags;
+        var hashIndex = hashes.indexOf(hash);
+
+        if (hashIndex != -1) {
+            hashes.splice(hashIndex, 1);
+            this.setState({hashtags: hashes});
+        }
+    },
+
     selectHashtags(hashs) {
       this.setState({hashtags: hashs});
     },
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.selectHashtags} />;
+            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} />;
         });
     },
 
@@ -166,9 +187,8 @@ App = React.createClass({
     renderHeaderSelectedTags() {
         if (this.state.hashtags.length) {
             var hashes = this.state.hashtags.map(function(hash) {
-                return <span className="header__hashtag">{hash}</span>
-            });
-            hashes.push(<span className="header__showall" onClick={this.selectHashtags.bind(this, [])}>&times;</span>)
+                return <span className="header__hashtag">{hash}<span className="header__hashtag__remove" onClick={this.removeSelectedHashtags.bind(this, hash)}>&times;</span></span>
+            }.bind(this));
 
             return <span> - {hashes}</span>;
         } else {
@@ -191,8 +211,16 @@ App = React.createClass({
                 <header>
                     <h1>
                         <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}
-                        {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
                     </h1>
+
+                    <form id="search-form">
+                        <input type="text" />
+                        <button type="submit">search</button>
+                    </form>
+
+                    {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
+
+                    <div className="clear"></div>
 
                     <form className="new-task" onSubmit={this.handleSubmit} >
                         <label>Your name:</label>
@@ -221,10 +249,7 @@ App = React.createClass({
                         {this.renderPreviews()}
                         <input type="submit" value="Send" />
                     </form>
-
-                    <div style={{clear: 'both'}}></div>
                 </header>
-
 
                 <ul>
                     {this.renderTasks()}

@@ -48,7 +48,7 @@ Task = React.createClass({
 
     selectHash(hash) {
         console.log('selecting hash', hash);
-        this.props.onHashClick([hash]);
+        this.props.onHashClick(hash);
     },
 
     linkify(text, links_arr) {
@@ -90,7 +90,7 @@ Task = React.createClass({
 
     hashtags() {
         if (typeof this.props.task.hashtags == 'undefined') return '';
-        if (this.props.task.hashtags == null) return '';
+        //if (this.props.task.hashtags == null) return '';
         return this.props.task.hashtags.join(', ');
     },
 
