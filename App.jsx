@@ -145,6 +145,7 @@ App = React.createClass({
         var name = React.findDOMNode(this.refs.nameInput).value.trim();
 
         if (text == '' || name == '') {
+            alert('Please fill both name and message.');
             return;
         }
 
