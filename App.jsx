@@ -31,7 +31,7 @@ App = React.createClass({
             role = 'admin';
         }
 
-        return {role: role, files: [], message: '', logins: [], hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        return {role: role, files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
 
@@ -49,6 +49,10 @@ App = React.createClass({
 
         if (this.state.logins.length != 0) {
             query["name"] = {$in: this.state.logins};
+        }
+
+        if (this.state.messageFilter !== null) {
+            query["text"] = new RegExp(this.state.messageFilter, 'gi');
         }
 
         return {
@@ -137,9 +141,10 @@ App = React.createClass({
 
         if (text.charAt(0) == '@') {
             this.selectLogins([text.substr(1)]);
-        }
-        if (text.charAt(0) == '#') {
+        }else if (text.charAt(0) == '#') {
             this.selectHashtags([text]);
+        }else {
+            this.setState({messageFilter: text});
         }
         return false;
     },
