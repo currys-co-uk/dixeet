@@ -33,7 +33,7 @@ App = React.createClass({
             role = 'user';
         }
 
-        return {role: role, files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        return {role: role, files: [], message: '', login: [], hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -41,7 +41,11 @@ App = React.createClass({
         var query = {};
 
         if (this.state.hashtags.length != 0) {
-            query = {"hashtags": {$all: this.state.hashtags}};
+            query["hashtags"] = {$all: this.state.hashtags};
+        }
+
+        if (this.state.login.length != 0) {
+            query["name"] = {$in: this.state.login};
         }
 
         return {
