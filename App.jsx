@@ -23,8 +23,6 @@ App = React.createClass({
     },
 
     getInitialState: function() {
-
-
         if (window.location.href.indexOf('?role=writer_042147cfc6f945cfff88da4c91fecf79') !== -1) {
             role = 'writer';
         }else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
