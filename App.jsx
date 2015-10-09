@@ -33,7 +33,7 @@ App = React.createClass({
             role = 'user';
         }
 
-        return {role: role, files: [], message: '', login: [], hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        return {role: role, files: [], message: '', logins: [], hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -44,8 +44,8 @@ App = React.createClass({
             query["hashtags"] = {$all: this.state.hashtags};
         }
 
-        if (this.state.login.length != 0) {
-            query["name"] = {$in: this.state.login};
+        if (this.state.logins.length != 0) {
+            query["name"] = {$in: this.state.logins};
         }
 
         return {
@@ -65,6 +65,18 @@ App = React.createClass({
         this.setState({hashtags: hashes})
     },
 
+    addLogin(login) {
+        var logins = this.state.logins;
+        logins.push(login);
+
+        // filter only unique values
+        logins = logins.filter(function(value, index, self) {
+            return self.indexOf(value) === index;
+        });
+
+        this.setState({logins: logins})
+    },
+
     removeSelectedHashtags(hash) {
         var hashes = this.state.hashtags;
         var hashIndex = hashes.indexOf(hash);
@@ -75,13 +87,23 @@ App = React.createClass({
         }
     },
 
+    removeSelectedLogins(hash) {
+        var hashes = this.state.logins;
+        var hashIndex = hashes.indexOf(hash);
+
+        if (hashIndex != -1) {
+            hashes.splice(hashIndex, 1);
+            this.setState({logins: hashes});
+        }
+    },
+
     selectHashtags(hashs) {
       this.setState({hashtags: hashs});
     },
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} />;
+            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} onLoginClick={this.addLogin}/>;
         });
     },
 
@@ -223,6 +245,18 @@ App = React.createClass({
         }
     },
 
+    renderHeaderSelectedLogins() {
+        if (this.state.logins.length) {
+            var logins = this.state.logins.map(function(login) {
+                return <span className="header__hashtag">@{login}<span className="header__hashtag__remove" onClick={this.removeSelectedLogins.bind(this, login)}>&times;</span></span>
+            }.bind(this));
+
+            return <span> - {logins}</span>;
+        } else {
+            return '';
+        }
+    },
+
     toggleForm(hidden) {
         this.setState({formHidden: hidden});
     },
@@ -237,7 +271,7 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()} {this.state.role}
+                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()} {this.state.role}
                     </h1>
 
                     <form id="search-form">
