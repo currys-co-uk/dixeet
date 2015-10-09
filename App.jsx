@@ -213,7 +213,7 @@ App = React.createClass({
                 return <span className="header__hashtag">{hash}<span className="header__hashtag__remove" onClick={this.removeSelectedHashtags.bind(this, hash)}>&times;</span></span>
             }.bind(this));
 
-            return <span> - {hashes}</span>;
+            return <span>{hashes}</span>;
         } else {
             return '';
         }
@@ -222,7 +222,6 @@ App = React.createClass({
     toggleForm(hidden) {
         this.setState({formHidden: hidden});
     },
-
 
     render() {
         var containerClass = 'container ' + (this.state.formHidden ? 'form-hidden ' : '');
@@ -233,7 +232,7 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()} {this.state.role}
+                        <img id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.role}</span> {this.renderHeaderSelectedTags()}
                     </h1>
 
                     <form id="search-form">
