@@ -1,5 +1,9 @@
 Tasks = new Mongo.Collection("tasks");
 
+if (Meteor.isServer) {
+  Parameters = new Mongo.Collection("params");
+}
+
 /*var createThumb = function(fileObj, readStream, writeStream) {
   // Transform the image into a 10x10px thumbnail
   gm(readStream, fileObj.name()).resize('10', '10').stream().pipe(writeStream);

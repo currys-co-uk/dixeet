@@ -23,15 +23,19 @@ App = React.createClass({
     },
 
     getInitialState: function() {
-        var role = 'user';
+        Meteor.call('getRole', window.location.href, function(error, result){
+            if(error){
+                //Error handling code
+                console.log(error);
+            }
+            else {
+                console.log({role: result});
+                this.setState({role: result});
+            }
+        }.bind(this));
 
-        if (window.location.href.indexOf('?role=writer_042147cfc6f945cfff88da4c91fecf79') !== -1) {
-            role = 'writer';
-        } else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
-            role = 'admin';
-        }
 
-        return {role: role, files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        return {role: 'user', files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
 

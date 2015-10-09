@@ -22,8 +22,16 @@ Meteor.startup(function () {
     })*/
 });
 
-
 Meteor.methods({
+    getRole: function(url){
+        var params = Parameters.find({}).fetch();
+        for(var i = 0; i<params.length; i++) {
+            if (url.indexOf(params[i].value) !== -1) {
+                return params[i].name
+            }
+        }
+        return 'user';
+    },
     getIP: function(){
         var ip = this.connection.clientAddress;
         return ip;
