@@ -21,3 +21,11 @@ Meteor.startup(function () {
         }
     })*/
 });
+
+
+Meteor.methods({
+    getIP: function(){
+        var ip = this.connection.clientAddress;
+        return ip;
+    }
+});

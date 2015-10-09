@@ -8,10 +8,32 @@ App = React.createClass({
         setInterval(function() {
             this.setState({appTime: moment()});
         }.bind(this), 30000);
+
+
+        Meteor.call('getIP', function(error, result){
+            if(error){
+                //Error handling code
+                console.log(error);
+            }
+            else {
+                this.setState({ip: result});
+            }
+        }.bind(this));
+
     },
 
     getInitialState: function() {
-        return {files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+
+
+        if (window.location.href.indexOf('?role=writer_042147cfc6f945cfff88da4c91fecf79') !== -1) {
+            role = 'writer';
+        }else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
+            role = 'admin';
+        }else {
+            role = 'user';
+        }
+
+        return {role: role, files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -23,7 +45,7 @@ App = React.createClass({
         }
 
         return {
-            tasks: Tasks.find(query, {sort: {createdAt: -1}}).fetch()
+            tasks: Tasks.find(query, {sort: {createdAt: -1, limit: 200}}).fetch()
         }
     },
 
@@ -104,6 +126,7 @@ App = React.createClass({
 
         var doc = {
             name: name,
+            ip: this.state.ip,
             hashtags: uniquehashtags,
             text: text,
             files: filesStore,
@@ -210,7 +233,7 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}
+                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()} {this.state.role}
                     </h1>
 
                     <form id="search-form">

@@ -122,7 +122,7 @@ Task = React.createClass({
             <li className={taskClassName}>
                 {this.displayDeleteButton()}
 
-                <div className="task__info"><strong className="task__info__name">@{this.props.task.name}</strong> <span className="task__info__date">{this.formatDate()}</span></div>
+                <div className="task__info"><strong className="task__info__name">@{this.props.task.name},{this.props.task.ip} </strong> <span className="task__info__date">{this.formatDate()}</span></div>
                 <div className="task__message">{this.getMessage(this.props.task.text, this.props.task.hashtags)}</div>
                 <div className="task__previews">{this.renderPreviews()}</div>
             </li>
