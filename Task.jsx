@@ -49,8 +49,9 @@ Task = React.createClass({
     },
 
     selectHash(hash) {
+        var event = arguments[1];
         console.log('selecting hash', hash);
-        this.props.onHashClick(hash);
+        this.props.onHashClick(hash, event);
     },
 
     selectUser(name) {

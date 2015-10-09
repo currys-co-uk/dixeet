@@ -67,14 +67,20 @@ App = React.createClass({
         }
     },
 
-    addHashTag(hash) {
+    addHashTag(hash, event) {
         var hashes = this.state.hashtags;
-        hashes.push(hash);
+        var nativeEvent = event.nativeEvent;
 
-        // filter only unique values
-        hashes = hashes.filter(function(value, index, self) {
-            return self.indexOf(value) === index;
-        });
+        if (nativeEvent.ctrlKey || nativeEvent.altKey) {
+            hashes.push(hash);
+
+            // filter only unique values
+            hashes = hashes.filter(function(value, index, self) {
+                return self.indexOf(value) === index;
+            });
+        } else {
+            hashes = [hash];
+        }
 
         this.setState({hashtags: hashes})
     },
