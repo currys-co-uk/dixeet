@@ -124,6 +124,18 @@ App = React.createClass({
         this.setState({files: s});
     },
 
+    handleSearchSubmit(event) {
+        event.preventDefault();
+        var text = React.findDOMNode(this.refs.searchFormInput).value.trim();
+        if (text.charAt(0) == '@') {
+            this.addLogin(text.substr(1));
+        }
+        if (text.charAt(0) == '#') {
+            this.addHashTag(text);
+        }
+        return false;
+    },
+
     handleSubmit(event) {
         var self = this;
 
@@ -278,8 +290,9 @@ App = React.createClass({
 
                     <div className="clear"></div>
 
-                    <form id="search-form">
-                        <input type="text" />
+                    <form id="search-form" onSubmit={this.handleSearchSubmit}>
+                        <input type="text" ref="searchFormInput" />
+
                         <button type="submit">search</button>
                     </form>
 
