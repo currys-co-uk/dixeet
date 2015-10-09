@@ -11,7 +11,15 @@ App = React.createClass({
     },
 
     getInitialState: function() {
-        return {files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        if (window.location.href.indexOf('?role=writer_042147cfc6f945cfff88da4c91fecf79') !== -1) {
+            role = 'writer';
+        }else if (window.location.href.indexOf('?role=admin_6861fe864e5b0174d5a293bf1e086b4c') !== -1) {
+            role = 'admin';
+        }else {
+            role = 'user';
+        }
+        console.log(window.location.href);
+        return {role: role, files: [], message: '', hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -24,7 +32,7 @@ App = React.createClass({
         }
 
         return {
-            tasks: Tasks.find(query, {sort: {createdAt: -1}}).fetch()
+            tasks: Tasks.find(query, {sort: {createdAt: -1, limit: 200}}).fetch()
         }
     },
 
@@ -190,7 +198,7 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()}
+                        <img id="logo" src="/dixeet__logo.png" /> {this.renderHeaderSelectedTags()} {this.state.role}
                         {this.state.formHidden ? <button className="toggleFormButton" onClick={this.toggleForm.bind(this, false)}>new dixeet</button> : <button className="toggleFormButton" onClick={this.toggleForm.bind(this, true)}>hide form</button>}
                     </h1>
 
