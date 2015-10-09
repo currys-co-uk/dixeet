@@ -44,11 +44,18 @@ App = React.createClass({
         var query = {};
 
         if (this.state.hashtags.length != 0) {
-            query["hashtags"] = {$all: this.state.hashtags};
+            var regexs = this.state.hashtags.map(function (el) {
+                return new RegExp(el, 'i')
+            })
+            query["hashtags"] = {$all: regexs};
         }
 
         if (this.state.logins.length != 0) {
-            query["name"] = {$in: this.state.logins};
+            var regexs_logins = this.state.logins.map(function (el) {
+                return new RegExp(el, 'i')
+            })
+            query["name"] = {$in: regexs_logins};
+
         }
 
         if (this.state.messageFilter !== null) {
