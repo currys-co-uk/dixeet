@@ -104,6 +104,10 @@ App = React.createClass({
       this.setState({hashtags: hashs});
     },
 
+    selectLogins(logins) {
+        this.setState({logins: logins});
+    },
+
     renderTasks() {
         return this.data.tasks.map((task)  => {
             return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} role={this.state.role} onLoginClick={this.addLogin}/>;
@@ -126,12 +130,16 @@ App = React.createClass({
 
     handleSearchSubmit(event) {
         event.preventDefault();
+
         var text = React.findDOMNode(this.refs.searchFormInput).value.trim();
+        this.selectHashtags([]);
+        this.selectLogins([]);
+
         if (text.charAt(0) == '@') {
-            this.addLogin(text.substr(1));
+            this.selectLogins([text.substr(1)]);
         }
         if (text.charAt(0) == '#') {
-            this.addHashTag(text);
+            this.selectHashtags([text]);
         }
         return false;
     },
