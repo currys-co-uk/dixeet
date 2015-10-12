@@ -7,6 +7,16 @@ if (Meteor.isServer) {
   //    name: 'admin',
   //    value: '?admin'
   //});
+
+  //Parameters.insert({
+  //  name: 'writer',
+  //  value: '?writer'
+  //});
+  //
+  //Parameters.insert({
+  //  name: 'user',
+  //  value: '?user'
+  //});
 }
 
 /*var createThumb = function(fileObj, readStream, writeStream) {
@@ -15,7 +25,7 @@ if (Meteor.isServer) {
 };*/
 
 var imageStore = new FS.Store.GridFS("images1", {
-  //mongoUrl: 'mongodb://127.0.0.1:27017/test/', // optional, defaults to Meteor's local MongoDB
+  //mongoUrl: 'mongodb://127.0.0.1:27017/test/', // optional, defaults to Meteor's local MongoDB spo
   //mongoOptions: {...},  // optional, see note below
   //transformWrite: myTransformWriteFunction, //optional
   //transformRead: myTransformReadFunction, //optional
