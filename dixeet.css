@@ -1,14 +1,4 @@
 /* CSS declarations go here */
-.stream {
-  float: right;
-  display: inline-block;
-  margin-left: 4px;
-  font-size: 12px;
-  color: #666;
-  margin-top: 7px;
-  cursor: Pointer;
-}
-
 header img {
   cursor: Pointer;
 }
@@ -335,6 +325,24 @@ li {
   list-style: none;
   padding: 15px;
   border-bottom: #eee solid 1px;
+}
+.task .task__stream {
+  float: right;
+  display: inline-block;
+  font-size: 12px;
+  color: #666;
+  cursor: Pointer;
+  line-height: 22px;
+  margin-right: 8px;
+}
+.task .task__stream:hover {
+  color: #f47721;
+}
+.task .task__stream__icon {
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  margin-right: 4px;
 }
 .task .task__info .task__info__name {
   font-size: 18px;

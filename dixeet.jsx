@@ -2,6 +2,11 @@ Tasks = new Mongo.Collection("tasks");
 
 if (Meteor.isServer) {
   Parameters = new Mongo.Collection("params");
+
+  //Parameters.insert({
+  //    name: 'admin',
+  //    value: '?admin'
+  //});
 }
 
 /*var createThumb = function(fileObj, readStream, writeStream) {

@@ -150,7 +150,7 @@ App = React.createClass({
 
     renderTasks() {
         return this.data.tasks.map((task)  => {
-            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} role={this.state.role} onLoginClick={this.addLogin} onStreamClick={this.setStream}/>;
+            return <Task key={task._id} task={task} appTime={this.state.appTime} onHashClick={this.addHashTag} role={this.state.role} stream={this.state.stream} onLoginClick={this.addLogin} onStreamClick={this.setStream}/>;
         });
     },
 
