@@ -30,12 +30,31 @@ Images = new FS.Collection("images", {
   stores: [imageStore1]
 });
 
+
+
+FlowRouter.route('/', {
+  action: function() {
+    ReactLayout.render(App, {
+      stream: null
+    });
+  }
+});
+
+FlowRouter.route('/:stream', {
+  action: function(params) {
+    ReactLayout.render(App, {
+      stream: params.stream
+    });
+  }
+});
+
+
 if (Meteor.isClient) {
   // This code is executed on the client only
 
   Meteor.startup(function () {
     // Use Meteor.startup to render the component after the page is ready
-    React.render(<App />, document.getElementById("render-target"));
+    //React.render(<Layout />, document.getElementById("render-target"));
 
     lightbox.init();
   });

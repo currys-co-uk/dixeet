@@ -22,20 +22,6 @@ App = React.createClass({
 
     },
 
-    getStreamName(url) {
-        var re = /\/([a-z|A-Z|0-9|-|-|_]+)\//;
-        var m;
-
-        if ((m = re.exec(url)) !== null) {
-            if (m.index === re.lastIndex) {
-                re.lastIndex++;
-            }
-            return m[1];
-        }
-
-        return null;
-    },
-
     getInitialState: function() {
 
         Meteor.call('getRole', window.location.href, function(error, result){
@@ -50,7 +36,7 @@ App = React.createClass({
         }.bind(this));
 
 
-        return {stream: this.getStreamName(window.location.href), role: 'user', files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
+        return {stream: this.props.stream, role: 'user', files: [], message: '', logins: [], messageFilter: null,  hashtags: [], appTime: moment(), uploadResetCounter: 0, formHidden: true};
     },
 
 
@@ -340,7 +326,7 @@ App = React.createClass({
             <div className={containerClass}>
                 <header>
                     <h1>
-                        <img onClick={function(){FlowRouter.go('/');  //TODO: meteor remove kadira:flow-router
+                        <img onClick={function(){FlowRouter.go('/');
                             this.setState({stream: null})}.bind(this)} id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.state.stream}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
                     </h1>
 
