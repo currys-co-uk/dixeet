@@ -55,7 +55,7 @@ Task = React.createClass({
     },
 
     selectStream(stream) {
-        FlowRouter.go('/' + stream + '/ '); //TODO: meteor remove kadira:flow-router
+        FlowRouter.go('/' + stream);
         console.log('selecting stream', stream);
         this.props.onStreamClick(stream);
     },
