@@ -34,13 +34,10 @@ App = React.createClass({
         return {
             stream: this.props.stream,
             role: 'user',
-            files: [],
-            message: '',
             logins: [],
             messageFilter: null,
             hashtags: [],
             appTime: moment(),
-            uploadResetCounter: 0,
             formHidden: true
         };
     },
@@ -56,14 +53,14 @@ App = React.createClass({
         if (this.state.hashtags.length != 0) {
             var regexs = this.state.hashtags.map(function (el) {
                 return new RegExp(el, 'i')
-            })
+            });
             query["hashtags"] = {$all: regexs};
         }
 
         if (this.state.logins.length != 0) {
             var regexs_logins = this.state.logins.map(function (el) {
                 return new RegExp(el, 'i')
-            })
+            });
             query["name"] = {$in: regexs_logins};
 
         }
