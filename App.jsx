@@ -318,7 +318,8 @@ App = React.createClass({
     },
 
     render() {
-        var containerClass = 'container ' + (this.state.formHidden ? 'form-hidden ' : '');
+        var canAddTweet = this.state.role == 'writer' || this.state.role == 'admin';
+        var containerClass = 'container ' + (this.state.formHidden ? 'form-hidden ' : '') + (canAddTweet ? 'toggle-form-button-visible ' : '');
         var messageCharsLeft = this.messageLimit - this.state.message.length;
         var charsLeftButtonClass = messageCharsLeft <= 20 ? 'chars-left-low ' : '';
 
