@@ -3,6 +3,7 @@ Header = React.createClass({
 
     getInitialState() {
         return {
+            stream: this.props.stream,
             files: [],
             uploadResetCounter: 0,
             message: ''
