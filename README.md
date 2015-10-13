@@ -7,8 +7,6 @@ Realtime chat platform allows private instant broadcast messaging and similar to
  - supports hashtags & links
  - unlimited count of attachments
  - easy way how to create streams
- 
- 
  - three levels of rights:
     - public (just reading)
     - writer (can create strams & messages)
@@ -21,8 +19,8 @@ Realtime chat platform allows private instant broadcast messaging and similar to
  - open url/<stream_name> in browser
 
 
-
 ##Run
+
     curl https://install.meteor.com/ | sh
     cd project_home
     mateor
