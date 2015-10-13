@@ -183,7 +183,7 @@ Header = React.createClass({
         return (
             <header>
                 <h1>
-                    <img onClick={this.logoClick} id="logo" src="/dixeet__logo.png" /> <span className="header__user">{this.props.stream}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
+                    <img onClick={this.logoClick} id="logo" src="/dixeet_logo.png" /> <span className="header__user">{this.props.stream}</span> {this.renderHeaderSelectedLogins()} {this.renderHeaderSelectedTags()}
                 </h1>
 
                 <div className="clear"></div>
