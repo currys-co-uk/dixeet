@@ -12,17 +12,21 @@ Realtime chat platform allows private instant broadcast messaging and similar to
     - writer (can create strams & messages)
     - admin (can delete)
 
+### Technologies
+ - [Meteor JS](https://www.meteor.com/)
+ - [React](https://facebook.github.io/react/)
+ - [MongoDB](https://www.mongodb.org/)
 
-##How to create/open another stream    
 
- - click on stream name within an message
- - open url/<stream_name> in browser
-
-
-##Run
+## Build & run
 
     curl https://install.meteor.com/ | sh
     cd project_home
     mateor
     
     open http://localhost:3000 in any browser
+    
+## How to create/open another stream    
+
+ - click on stream name within an message
+ - open url/<stream_name> in browser
