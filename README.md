@@ -21,10 +21,10 @@ Realtime chat platform allows private instant broadcast messaging and similar to
  - open url/<stream_name> in browser
 
 
+
 ##Run
     curl https://install.meteor.com/ | sh
     cd project_home
     mateor
     
-
     open http://localhost:3000 in any browser
