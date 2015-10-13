@@ -86,7 +86,7 @@ Header = React.createClass({
         });
 
         var doc = {
-            stream: this.state.stream,
+            stream: this.props.stream,
             name: name,
             ip: this.state.ip,
             hashtags: uniquehashtags,
