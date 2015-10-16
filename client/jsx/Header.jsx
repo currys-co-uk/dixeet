@@ -11,7 +11,7 @@ Header = React.createClass({
     },
 
     logoClick() {
-        this.refs.searchFormInput.getDOMNode().value = '';
+        React.findDOMNode(this.refs.searchFormInput).value = '';
         this.handleSearchSubmit(null);
         FlowRouter.go('/');
         this.props.logoClick();
