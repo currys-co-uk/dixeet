@@ -11,6 +11,8 @@ Header = React.createClass({
     },
 
     logoClick() {
+        this.refs.searchFormInput.getDOMNode().value = '';
+        this.handleSearchSubmit(null);
         FlowRouter.go('/');
         this.props.logoClick();
     },
@@ -52,7 +54,10 @@ Header = React.createClass({
     },
 
     handleSearchSubmit(event) {
-        event.preventDefault();
+        if(null !== event){
+            event.preventDefault();
+        }
+
         var text = React.findDOMNode(this.refs.searchFormInput).value.trim();
         this.props.handleSearchSubmit(text);
     },
