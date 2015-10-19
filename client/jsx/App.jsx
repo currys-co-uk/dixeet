@@ -3,7 +3,7 @@ App = React.createClass({
     // This mixin makes the getMeteorData method work
     mixins: [ReactMeteorData],
     messageLimit: 160,
-    limit: 5,
+    limit: 200,
     threshold: 250,
 
     componentDidMount() {
