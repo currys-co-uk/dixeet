@@ -31,4 +31,4 @@ Realtime chat platform allowing private instant broadcast messaging similarly to
 ## How to create/open another stream    
 
  - click on stream name within an message
- - open <app_url>/<stream_name> in browser
+ - open &lt;app_url&gt;/&lt;stream_name&gt; in browser
