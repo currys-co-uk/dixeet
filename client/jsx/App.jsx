@@ -3,7 +3,7 @@ App = React.createClass({
     // This mixin makes the getMeteorData method work
     mixins: [ReactMeteorData],
     messageLimit: 160,
-    limit: 200,
+    limit: 5,
     threshold: 250,
 
     componentDidMount() {
@@ -23,7 +23,9 @@ App = React.createClass({
     },
 
     componentDidUpdate() {
-        this.attachScrollListener();
+        if (this.data.tasksCountWithoutLimit > this.data.tasks.length) {
+            this.attachScrollListener();
+        }
     },
 
     componentWillUnmount() {
@@ -80,9 +82,13 @@ App = React.createClass({
         }
 
         var limit = this.limit * this.state.page;
+        var tasks = Tasks.find(query, {sort: {createdAt: -1}, limit: limit});
+        var tasksWithoutLimit = Tasks.find(query, {sort: {createdAt: -1}});
+        var tasksCountWithoutLimit =  tasksWithoutLimit.count();
 
         return {
-            tasks: Tasks.find(query, {sort: {createdAt: -1}, limit: limit}).fetch()
+            tasks: tasks.fetch(),
+            tasksCountWithoutLimit: tasksCountWithoutLimit
         }
     },
 
@@ -99,11 +105,9 @@ App = React.createClass({
     },
 
     attachScrollListener: function () {
-        setTimeout(function() {
-            window.addEventListener('scroll', this.scrollListener);
-            window.addEventListener('resize', this.scrollListener);
-            this.scrollListener();
-        }.bind(this), 200);
+        window.addEventListener('scroll', this.scrollListener);
+        window.addEventListener('resize', this.scrollListener);
+        this.scrollListener();
     },
 
     detachScrollListener: function () {
