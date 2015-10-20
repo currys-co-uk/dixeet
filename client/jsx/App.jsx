@@ -3,24 +3,36 @@ App = React.createClass({
     // This mixin makes the getMeteorData method work
     mixins: [ReactMeteorData],
     messageLimit: 160,
+    limit: 200,
+    threshold: 250,
 
     componentDidMount() {
         setInterval(function () {
             this.setState({appTime: moment()});
         }.bind(this), 30000);
 
-
         Meteor.call('getIP', function (error, result) {
             if (error) {
                 console.log(error);
-            }
-            else {
+            } else {
                 this.setState({ip: result});
             }
         }.bind(this));
+
+        this.attachScrollListener();
     },
 
-    getInitialState: function () {
+    componentDidUpdate() {
+        if (this.data.tasksCountWithoutLimit > this.data.tasks.length) {
+            this.attachScrollListener();
+        }
+    },
+
+    componentWillUnmount() {
+        this.detachScrollListener();
+    },
+
+    getInitialState() {
         Meteor.call('getRole', window.location.href, function (error, result) {
             if (error) {
                 console.log(error);
@@ -36,14 +48,11 @@ App = React.createClass({
             role: 'user',
             logins: [],
             messageFilter: null,
+            page: 1,
             hashtags: [],
             appTime: moment(),
             formHidden: true
         };
-    },
-
-    hasRole(role) {
-        return this.state.role == role;
     },
 
     // Loads items from the Tasks collection and puts them on this.data.tasks
@@ -62,7 +71,6 @@ App = React.createClass({
                 return new RegExp(el, 'i')
             });
             query["name"] = {$in: regexs_logins};
-
         }
 
         if (this.state.messageFilter !== null) {
@@ -73,9 +81,42 @@ App = React.createClass({
             query["stream"] = new RegExp(this.state.stream, 'gi');
         }
 
+        var limit = this.limit * this.state.page;
+        var tasks = Tasks.find(query, {sort: {createdAt: -1}, limit: limit});
+        var tasksWithoutLimit = Tasks.find(query, {sort: {createdAt: -1}});
+        var tasksCountWithoutLimit =  tasksWithoutLimit.count();
+
         return {
-            tasks: Tasks.find(query, {sort: {createdAt: -1, limit: 200}}).fetch()
+            tasks: tasks.fetch(),
+            tasksCountWithoutLimit: tasksCountWithoutLimit
         }
+    },
+
+    scrollListener() {
+        var el = React.findDOMNode(this.refs.tasksList);
+
+        var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        var willLoad = el.offsetTop + el.offsetHeight - scrollTop - window.innerHeight < Number(this.threshold);
+
+        if (willLoad) {
+            this.detachScrollListener();
+            this.setState({page: this.state.page + 1});
+        }
+    },
+
+    attachScrollListener: function () {
+        window.addEventListener('scroll', this.scrollListener);
+        window.addEventListener('resize', this.scrollListener);
+        this.scrollListener();
+    },
+
+    detachScrollListener: function () {
+        window.removeEventListener('scroll', this.scrollListener);
+        window.removeEventListener('resize', this.scrollListener);
+    },
+
+    hasRole(role) {
+        return this.state.role == role;
     },
 
     logoClick() {
@@ -151,7 +192,7 @@ App = React.createClass({
                          onStreamClick={this.setStream}/>;
         });
 
-        return <ul>{tasks}</ul>;
+        return <ul ref="tasksList">{tasks}</ul>;
     },
 
     handleSearchSubmit(text) {
@@ -191,7 +232,7 @@ App = React.createClass({
                     logoClick={this.logoClick}
                     />
 
-                {this.renderTasks()}
+                    {this.renderTasks()}
             </div>
         );
     }
